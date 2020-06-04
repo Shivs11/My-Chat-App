@@ -5,31 +5,31 @@ const socketio = require('socket.io')
 
 // Connecting to a database.
 
-const mongodb = require('mongodb')
+const mongoose = require('mongoose')
+const validator = require('validator')
+const userinfo = require('./models/email')
 
-// This will give us the neccessary functions to be able to connect to our client efficiently.
-const MongoClient = mongodb.MongoClient
 
-
-const connectionURL = 'mongodb://127.0.0.1:27017'
-const databaseName = 'my-chat-app'
-
-MongoClient.connect(connectionURL, {useNewUrlParser: true}, (error, client) => {
-    if(error){
-        console.log('Unable to connect man.')
-    }
-
-    const db = client.db(databaseName)
-
-    db.collection('userinfo').insertOne({
-        name: 'Shivam',
-        email: 'shivamasaraf@yahoo.com'
-    })
-    console.log('connected!')
+mongoose.connect('mongodb://127.0.0.1:27017/chat-app', {
+    useNewUrlParser: true,
+    useCreateIndex: true
 })
 
 
 
+
+const newone = new userinfo({
+    name:'Shivam',
+    email: 'shivamasaraf@yahoo.com'
+})
+
+newone.save()
+    .then((doc) => {
+        console.log(doc)
+    })
+    .catch(err => {
+        console.log(err)
+    })
 
 
 const app = express()
@@ -42,7 +42,7 @@ const port = process.env.PORT || 3000
 const publicdirectorypath = path.join(__dirname, '../public')
 app.use(express.static(publicdirectorypath))
 
-var mongoose = require('mongoose')
+
 
 io.on('connection', (socket) => {
     
