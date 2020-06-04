@@ -8,10 +8,20 @@
 <body>
     <form id = "initial-one">
 
-        <input name="message" type="text" placeholder="Enter your name here.">
+        <input id = "myname" name="message" type="text" placeholder="Enter your name here.">
         <button>Send</button>
+        <button onclick="document.getElementById('myname').value = ''">Clear input.</button>
+        <br>
+        <br>
 
     </form>
+
+    <button id = "Location">
+        Get Location!
+    </button>
+
+    <p id = 'mylocation'></p>
+
     <script src = "/socket.io/socket.io.js"></script>
     <script src="js/chat.js"></script>
 </body>
