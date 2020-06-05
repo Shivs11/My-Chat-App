@@ -1,9 +1,15 @@
 const socket = io()
 document.querySelector('#initial-one').addEventListener('submit', (e) =>{
     e.preventDefault()
-    
+    console.log("Work man.")
+    // Getting the name of the person who just entered his/her name.
     const name = document.getElementById('myname').value
-    socket.emit('receivename', name)
+    const email = document.getElementById('myemail').value
+    console.log(email)
+    socket.emit('receivename', {
+        name,
+        email
+    })
 })
 
 

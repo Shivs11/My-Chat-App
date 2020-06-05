@@ -3,18 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
     <title>Chat-App.</title>
 </head>
 <body>
-    <form id = "initial-one">
 
+    <h1>Welcome to this minimalistic Chat-Application.</h1>
+    <br>
+    <br>
+    <h2>Login Page:</h2>
+    <form id = 'initial-one'>
         <input id = "myname" name="message" type="text" placeholder="Enter your name here.">
-        <button>Send</button>
-        <button onclick="document.getElementById('myname').value = ''">Clear input.</button>
+
+        <input id = "myemail" type="text" placeholder="Enter your email here">
         <br>
         <br>
 
+        <button id="button-details">Send details.</button>
+        <br>
+        <br>
     </form>
+
+    <button onclick="clearplease()">Clear to remove all details.</button>
 
     <button id = "Location">
         Get Location!
@@ -24,5 +34,11 @@
 
     <script src = "/socket.io/socket.io.js"></script>
     <script src="js/chat.js"></script>
+    <script>
+        function clearplease(){
+            document.getElementById('myemail').value = ''
+            document.getElementById('myname').value = ''
+        }
+    </script>
 </body>
 </html>

@@ -18,19 +18,6 @@ mongoose.connect('mongodb://127.0.0.1:27017/chat-app', {
 
 
 
-const newone = new userinfo({
-    name:'Shivam',
-    email: 'shivamasaraf@yahoo.com'
-})
-
-newone.save()
-    .then((doc) => {
-        console.log(doc)
-    })
-    .catch(err => {
-        console.log(err)
-    })
-
 
 const app = express()
 const server = http.createServer(app)
@@ -46,8 +33,24 @@ app.use(express.static(publicdirectorypath))
 
 io.on('connection', (socket) => {
     
-    socket.on('receivename', (name) => {
+
+    socket.on('receivename', ({name, email}) => {
         io.emit('sendmessage', `${name} has joined the chat.`)
+
+        const newone = new userinfo({
+            name,
+            email
+        })
+
+        newone.save()
+        .then((doc) => {
+            console.log(doc)
+        })
+        .catch(err => {
+            console.log(err)
+        })
+
+
     })
 
     socket.on('disconnect', () => {
