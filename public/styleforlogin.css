@@ -1,0 +1,39 @@
+body{
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    background: url(/images/background.jpg) no-repeat;
+    position: absolute;
+    background-size: cover;
+    max-width: 100%;
+    background-position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.login-box{
+    width: 280px;
+    position: absolute;
+    top: 25%;
+    left: 25%;
+    transform: translate(-50%, 50%);
+    color: white ;
+}
+
+.login-box h1{
+    float: left;
+    font-size: 40px;
+    border-bottom: 6px solid #4caf50;
+    margin-bottom: 50px;
+}
+
+.textbox{
+    width: 100%;
+    overflow: hidden;
+    font-size: 20px;
+    padding: 8px 0;
+    margin: 8px 0;
+    border-bottom: 1px solid #4caf50;
+
+}
