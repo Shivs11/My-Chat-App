@@ -1,20 +1,39 @@
 const socket = io()
-document.querySelector('#initial-one').addEventListener('submit', (e) =>{
+const $messsagesquery = document.querySelector('#template-time')
+
+// Templates.
+const messagetemplate = document.querySelector('#messaging-template').innerHTML
+const locationtemplate = document.querySelector('#location-template').innerHTML
+
+
+document.getElementById('button_details').addEventListener('click', (e) =>{
     e.preventDefault()
-    console.log("Work man.")
+
     // Getting the name of the person who just entered his/her name.
     const name = document.getElementById('myname').value
     const email = document.getElementById('myemail').value
-    console.log(email)
     socket.emit('receivename', {
         name,
         email
     })
 })
 
+// Seperate event for receiving and displaying location.
+
+socket.on('receivelocation', (url) => {
+    const html = Mustache.render(locationtemplate, {
+        url
+    })
+    $messsagesquery.insertAdjacentHTML('beforeend', html)    
+})
+
 
 socket.on('sendmessage', (message) => {
     console.log(message)
+    const html = Mustache.render(messagetemplate, {
+        message
+    })
+    $messsagesquery.insertAdjacentHTML('beforeend', html)
 })
 
 
@@ -28,10 +47,6 @@ document.querySelector('#Location').addEventListener('click', () => {
             latitude: position.coords.latitude,
             longitude: position.coords.longitude
         })
-
-        // Let us also change the inner html of the html.
-        var location = document.getElementById("mylocation").innerHTML = `Your position right now will be ${position.coords.latitude} latitudes and 
-        ${position.coords.longitude} longitudes.`
     })
 })
 

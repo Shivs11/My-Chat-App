@@ -7,11 +7,17 @@
     <title>Chat-App.</title>
 </head>
 <body>
-
+    
+    <div id = "My_chat">
+        
     <h1>Welcome to this minimalistic Chat-Application.</h1>
     <br>
     <br>
-    <h2>Login Page:</h2>
+    <u><h2>Sign up to have a blast.</h2></u>
+    
+    <div id = "template-time"></div>
+
+
     <form id = 'initial-one'>
         <input id = "myname" name="message" type="text" placeholder="Enter your name here.">
 
@@ -19,12 +25,15 @@
         <br>
         <br>
 
-        <button id="button-details">Send details.</button>
+        <div class = "flex_buttons">
+            <button type="submit" id="button_details" formmethod="GET">Send details.</button>
+            <button onclick="clearplease()">Clear to remove all details.</button>
+        </div>
+        
         <br>
         <br>
     </form>
 
-    <button onclick="clearplease()">Clear to remove all details.</button>
 
     <button id = "Location">
         Get Location!
@@ -32,13 +41,40 @@
 
     <p id = 'mylocation'></p>
 
-    <script src = "/socket.io/socket.io.js"></script>
-    <script src="js/chat.js"></script>
-    <script>
-        function clearplease(){
-            document.getElementById('myemail').value = ''
-            document.getElementById('myname').value = ''
-        }
-    </script>
+    <button id = "Existing-user">
+        <a href="http://localhost:3000/Login">Already an existing user? Click here to Log in!</a>
+    </button>
+
+
+
+
+    <!-- A creation of a template for dynamic web pages.-->
+
+    </div>
+
 </body>
+<script id = "messaging-template" type="text/html">
+    <div>
+        <p><h2>{{message}}</h2></p>
+    </div>
+</script>
+
+<script id = "location-template" type="text/html">
+    <div>
+        <p><a href="{{url}}" target = "_blank">My current location.</a></p>
+    </div>
+</script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.6.0/qs.min.js"></script>
+<script src = "/socket.io/socket.io.js"></script>
+<script src="js/chat.js"></script>
+<script id = 'Functions'>
+    function clearplease(){
+        document.getElementById('myemail').value = ''
+        document.getElementById('myname').value = ''
+    }
+</script>
 </html>

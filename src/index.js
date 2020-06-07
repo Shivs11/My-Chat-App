@@ -16,9 +16,6 @@ mongoose.connect('mongodb://127.0.0.1:27017/chat-app', {
 })
 
 
-
-
-
 const app = express()
 const server = http.createServer(app)
 
@@ -27,19 +24,20 @@ const io = socketio(server)
 const port = process.env.PORT || 3000
 
 const publicdirectorypath = path.join(__dirname, '../public')
+
 app.use(express.static(publicdirectorypath))
 
 
 
 io.on('connection', (socket) => {
-    
 
     socket.on('receivename', ({name, email}) => {
-        io.emit('sendmessage', `${name} has joined the chat.`)
-
+       
+        // Storing the users who can join in a database.
         const newone = new userinfo({
             name,
-            email
+            email,
+            Loggedin: new Date()
         })
 
         newone.save()
@@ -50,6 +48,8 @@ io.on('connection', (socket) => {
             console.log(err)
         })
 
+        io.emit('sendmessage', `${name} has joined the chat.`)
+
 
     })
 
@@ -58,7 +58,7 @@ io.on('connection', (socket) => {
     })
 
     socket.on('getlocation', (position) => {
-        socket.emit('sendmessage', `http://www.google.com/maps/place/${position.latitude},${position.longitude}`)
+        socket.emit('receivelocation', `http://www.google.com/maps/place/${position.latitude},${position.longitude}`)
     })
 
 
@@ -66,6 +66,9 @@ io.on('connection', (socket) => {
 
 })
 
+app.get('/Login', (req,res) => {
+    res.sendFile(path.join(__dirname, '../public/Login.html'))
+})
 
 
 server.listen(port, () => {

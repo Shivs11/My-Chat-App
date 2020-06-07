@@ -14,6 +14,11 @@ const userSchema = new mongoose.Schema({
         validate: (checker) => {
             return validator.isEmail(checker)
         }
+    },
+    Loggedin: {
+        type: String,
+        required: true,
+        unique: false
     }
 })
 
