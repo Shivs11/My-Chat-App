@@ -66,9 +66,18 @@ io.on('connection', (socket) => {
 
 })
 
+
+// Setting up all my routes here.
 app.get('/Login', (req,res) => {
     res.sendFile(path.join(__dirname, '../public/Login.html'))
 })
+
+// Route for the main chat-page.
+app.get('/chat', (req,res) => {
+    res.sendFile(path.join(__dirname, '../public/chatpage.html'))
+})
+
+
 
 
 server.listen(port, () => {
