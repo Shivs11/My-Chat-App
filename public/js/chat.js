@@ -1,4 +1,5 @@
 const socket = io()
+
 const $messsagesquery = document.querySelector('#template-time')
 
 // Templates.
@@ -12,9 +13,15 @@ document.getElementById('button_details').addEventListener('click', (e) =>{
     // Getting the name of the person who just entered his/her name.
     const name = document.getElementById('myname').value
     const email = document.getElementById('myemail').value
+
+    //Hashing the password now after getting it and storing it in the database.
+
+    const password = document.getElementById('mypassword').value
+    console.log(password)
     socket.emit('receivename', {
         name,
-        email
+        email,
+        password
     })
 })
 

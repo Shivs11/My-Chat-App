@@ -15,6 +15,11 @@ const userSchema = new mongoose.Schema({
             return validator.isEmail(checker)
         }
     },
+    password:{
+        type: String,
+        required: true,
+        unique: true
+    },
     Loggedin: {
         type: String,
         required: true,

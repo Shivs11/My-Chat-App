@@ -8,7 +8,7 @@ const socketio = require('socket.io')
 const mongoose = require('mongoose')
 const validator = require('validator')
 const userinfo = require('./models/email')
-
+const bcrypt = require('bcryptjs')
 
 mongoose.connect('mongodb://127.0.0.1:27017/chat-app', {
     useNewUrlParser: true,
@@ -31,12 +31,18 @@ app.use(express.static(publicdirectorypath))
 
 io.on('connection', (socket) => {
 
-    socket.on('receivename', ({name, email}) => {
+    socket.on('receivename', ({name, email, password}) => {
        
+        // hashing the password to provide security.
+
+        var salt = bcrypt.genSaltSync(8)
+        var hashedone = bcrypt.hashSync(password, salt)
+
         // Storing the users who can join in a database.
         const newone = new userinfo({
             name,
             email,
+            password: hashedone,
             Loggedin: new Date()
         })
 
@@ -51,6 +57,31 @@ io.on('connection', (socket) => {
         io.emit('sendmessage', `${name} has joined the chat.`)
 
 
+    })
+
+
+
+    // Event to check if the username and the password entered on the login page
+    // exists in our database!
+    socket.on('receivecredentials', async ({name,password}) => {
+
+        var salt = bcrypt.genSaltSync(8)
+        var hashedone = bcrypt.hashSync(password, salt)
+        var document = await userinfo.collection.findOne({
+            $or:[
+                {name: name}
+            ]
+        })
+
+        bcrypt.compare(password, document.password, function(err,res) {
+            if(res){
+                socket.emit('validation', true)
+            }
+            else{
+                socket.emit('validation', false)
+            }
+
+        })
     })
 
     socket.on('disconnect', () => {
@@ -77,6 +108,19 @@ app.get('/chat', (req,res) => {
     res.sendFile(path.join(__dirname, '../public/chatpage.html'))
 })
 
+
+//Attempt.
+
+
+// bycrypt.genSalt(8, function(err,salt){
+//     bycrypt.hash("Shiavm Saraf", salt, function(err,hash){
+//         console.log(hash)
+//         bycrypt.compare("Shiavm Saraf", hash, function(err,res){
+//             console.log(res)
+//         })
+//     })
+    
+// })
 
 
 
