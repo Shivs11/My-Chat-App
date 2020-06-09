@@ -1,3 +1,5 @@
+// My servers.
+
 const path = require('path')
 const http = require('http')
 const express = require('express')
@@ -84,6 +86,11 @@ io.on('connection', (socket) => {
         })
     })
 
+    // Events for real-time texting.
+    socket.on('receivetext',(response) => {
+        console.log(response)
+    })
+
     socket.on('disconnect', () => {
         socket.broadcast.emit('sendmessage','A user has left.')
     })
@@ -107,21 +114,6 @@ app.get('/Login', (req,res) => {
 app.get('/chat', (req,res) => {
     res.sendFile(path.join(__dirname, '../public/chatpage.html'))
 })
-
-
-//Attempt.
-
-
-// bycrypt.genSalt(8, function(err,salt){
-//     bycrypt.hash("Shiavm Saraf", salt, function(err,hash){
-//         console.log(hash)
-//         bycrypt.compare("Shiavm Saraf", hash, function(err,res){
-//             console.log(res)
-//         })
-//     })
-    
-// })
-
 
 
 server.listen(port, () => {

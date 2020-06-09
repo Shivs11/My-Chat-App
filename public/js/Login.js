@@ -20,9 +20,9 @@ document.getElementById('button_details').addEventListener('click', (e) => {
 
 socket.on('validation', (response) => {
     if(response){
-        console.log("you are in")
+        redirect()
     }
     else{
-        console.log("kata na")
+       failvalidation()
     }
 })
