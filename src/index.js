@@ -4,6 +4,8 @@ const path = require('path')
 const http = require('http')
 const express = require('express')
 const socketio = require('socket.io')
+const moment = require('moment')
+
 
 // Connecting to a database.
 
@@ -32,6 +34,7 @@ app.use(express.static(publicdirectorypath))
 
 
 io.on('connection', (socket) => {
+
 
     socket.on('receivename', ({name, email, password}) => {
        
@@ -66,7 +69,7 @@ io.on('connection', (socket) => {
     // Event to check if the username and the password entered on the login page
     // exists in our database!
     socket.on('receivecredentials', async ({name,password}) => {
-
+        window.user = name
         var salt = bcrypt.genSaltSync(8)
         var hashedone = bcrypt.hashSync(password, salt)
         var document = await userinfo.collection.findOne({
@@ -75,32 +78,34 @@ io.on('connection', (socket) => {
             ]
         })
 
+        if(!document){
+            socket.emit('validation', false)
+        }
         bcrypt.compare(password, document.password, function(err,res) {
             if(res){
                 socket.emit('validation', true)
+            
             }
             else{
                 socket.emit('validation', false)
             }
-
         })
     })
 
-    // Events for real-time texting.
-    socket.on('receivetext',(response) => {
-        console.log(response)
+    // Events for real-time texting
+
+    socket.on('receivetext', (message) => {
+        io.emit('displaytext', {
+            message,
+            time: moment().format("HH:mm")
+        })
     })
 
-    socket.on('disconnect', () => {
-        socket.broadcast.emit('sendmessage','A user has left.')
-    })
-
+    
     socket.on('getlocation', (position) => {
         socket.emit('receivelocation', `http://www.google.com/maps/place/${position.latitude},${position.longitude}`)
     })
 
-
-    socket.broadcast.emit('sendmessage', 'A new user has joined people!')
 
 })
 
