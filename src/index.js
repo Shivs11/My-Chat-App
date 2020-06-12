@@ -69,7 +69,7 @@ io.on('connection', (socket) => {
     // Event to check if the username and the password entered on the login page
     // exists in our database!
     socket.on('receivecredentials', async ({name,password}) => {
-        window.user = name
+
         var salt = bcrypt.genSaltSync(8)
         var hashedone = bcrypt.hashSync(password, salt)
         var document = await userinfo.collection.findOne({

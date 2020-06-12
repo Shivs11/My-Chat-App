@@ -24,7 +24,7 @@ const messagetemplate = document.querySelector('#messaging-template').innerHTML
         message,
         time
     })
-    $message.insertAdjacentHTML('beforeend', html)
+    $message.insertAdjacentHTML('beforebegin', html)
 })
 
 
