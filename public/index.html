@@ -1,84 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <title>Chat-App.</title>
-</head>
-<body>
-    
-    <div id = "My_chat">
-        
-    <h1>Welcome to this minimalistic Chat-Application.</h1>
-    <br>
-    <br>
-    <div id = "template-time"></div>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="style.css" />
+        <title>Chat-App.</title>
+    </head>
+    <body>
+        <div id="My_chat">
+            <h1>Welcome to this minimalistic Chat-Application.</h1>
+            <br />
+            <br />
+            <div class = "form-box" id="form-box">
+                <div class = "button-box"></div>
 
+            <form id="initial-one" class="myform">
+                <u><h2>Sign up to have a blast.</h2></u>
+                <input class = "button1 bouncy" id="myname" name="message" type="text" placeholder="Enter your name here." />
 
-    <form id = 'initial-one' class = "myform">
-        <u><h2>Sign up to have a blast.</h2></u>
-        <input id = "myname" name="message" type="text" placeholder="Enter your name here.">
+                <input class= "button1 bouncy" id="myemail" type="text" placeholder="Enter your email here" />
+                <br />
+                <br />
 
-        <input id = "myemail" type="text" placeholder="Enter your email here">
-        <br>
-        <br>
+                <input class = "button1 bouncy" id="mypassword" type="password" placeholder="Enter your Password here" />
+                <br />
+                <br />
 
-        <input id = "mypassword" type="password" placeholder="Enter your Password here">
-        <br>
-        <br>
+                <div class="flex_buttons">
+                    <button class = "button1 bouncy" type="submit" id="button_details" formmethod="GET">Register.</button>
+                    <button class = "button1 bouncy" onclick="clearplease()">Clear to remove all details.</button>
+                </div>
 
+                <br>
+                <br>
+                <br>
 
-        <div class = "flex_buttons">
-            <button type="submit" id="button_details" formmethod="GET">Send details.</button>
-            <button onclick="clearplease()">Clear to remove all details.</button>
+                <button id="Existing-user">
+                    <a href="http://localhost:3000/Login">Already an existing user? Click here to Log in!</a>
+                </button>
+                <br />
+                <br />
+            </form>
         </div>
-        
-        <br>
-        <br>
-    </form>
 
-    <button id = "Location">
+        <!--
+        <button id = "Location">
         Get Location!
-    </button>
+        </button>
+        <p id = 'mylocation'></p>
+        -->  
 
-    <p id = 'mylocation'></p>
 
-    <button id = "Existing-user">
-        <a href="http://localhost:3000/Login">Already an existing user? Click here to Log in!</a>
-    </button>
-
+        
 
 
 
-    <!-- A creation of a template for dynamic web pages.-->
 
-    </div>
+            <!-- A creation of a template for dynamic web pages.-->
+        </div>
+    </body>
+    <script id="messaging-template" type="text/html">
+        <div>
+            <p><h2>{{message}}</h2></p>
+        </div>
+    </script>
 
-</body>
-<script id = "messaging-template" type="text/html">
-    <div>
-        <p><h2>{{message}}</h2></p>
-    </div>
-</script>
+    <script id="location-template" type="text/html">
+        <div>
+            <p><a href="{{url}}" target = "_blank">My current location.</a></p>
+        </div>
+    </script>
 
-<script id = "location-template" type="text/html">
-    <div>
-        <p><a href="{{url}}" target = "_blank">My current location.</a></p>
-    </div>
-</script>
-
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.6.0/qs.min.js"></script>
-<script src = "/socket.io/socket.io.js"></script>
-<script src="js/chat.js"></script>
-<script id = 'Functions'>
-    function clearplease(){
-        document.getElementById('myemail').value = ''
-        document.getElementById('myname').value = ''
-    }
-
-</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.6.0/qs.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="js/chat.js"></script>
+    <script id="Functions">
+        function clearplease() {
+            document.getElementById("myemail").value = "";
+            document.getElementById("myname").value = "";
+        }
+    </script>
 </html>

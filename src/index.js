@@ -14,6 +14,9 @@ const validator = require('validator')
 const userinfo = require('./models/email')
 const bcrypt = require('bcryptjs')
 
+
+var count = 0
+
 mongoose.connect('mongodb://127.0.0.1:27017/chat-app', {
     useNewUrlParser: true,
     useCreateIndex: true
@@ -32,9 +35,7 @@ const publicdirectorypath = path.join(__dirname, '../public')
 app.use(express.static(publicdirectorypath))
 
 
-
 io.on('connection', (socket) => {
-
 
     socket.on('receivename', ({name, email, password}) => {
        
@@ -42,7 +43,6 @@ io.on('connection', (socket) => {
 
         var salt = bcrypt.genSaltSync(8)
         var hashedone = bcrypt.hashSync(password, salt)
-
         // Storing the users who can join in a database.
         const newone = new userinfo({
             name,
@@ -50,7 +50,6 @@ io.on('connection', (socket) => {
             password: hashedone,
             Loggedin: new Date()
         })
-
         newone.save()
         .then((doc) => {
             console.log(doc)
@@ -69,7 +68,8 @@ io.on('connection', (socket) => {
     // Event to check if the username and the password entered on the login page
     // exists in our database!
     socket.on('receivecredentials', async ({name,password}) => {
-
+        
+        // Sending the name to our working client to store it from before.
         var salt = bcrypt.genSaltSync(8)
         var hashedone = bcrypt.hashSync(password, salt)
         var document = await userinfo.collection.findOne({
@@ -97,7 +97,8 @@ io.on('connection', (socket) => {
     socket.on('receivetext', (message) => {
         io.emit('displaytext', {
             message,
-            time: moment().format("HH:mm")
+            time: moment().format("HH:mm"),
+            id: socket.id
         })
     })
 
@@ -124,3 +125,5 @@ app.get('/chat', (req,res) => {
 server.listen(port, () => {
     console.log('Server is up!!!')
 })
+
+
