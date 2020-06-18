@@ -13,9 +13,9 @@ const mongoose = require('mongoose')
 const validator = require('validator')
 const userinfo = require('./models/email')
 const bcrypt = require('bcryptjs')
+const {allusers, getcurrentuser} = require('./models/usercollection')
 
-
-var count = 0
+var myid = 0
 
 mongoose.connect('mongodb://127.0.0.1:27017/chat-app', {
     useNewUrlParser: true,
@@ -34,7 +34,7 @@ const publicdirectorypath = path.join(__dirname, '../public')
 
 app.use(express.static(publicdirectorypath))
 
-
+var newone = {}
 io.on('connection', (socket) => {
 
     socket.on('receivename', ({name, email, password}) => {
@@ -78,13 +78,15 @@ io.on('connection', (socket) => {
             ]
         })
 
+
         if(!document){
             socket.emit('validation', false)
         }
         bcrypt.compare(password, document.password, function(err,res) {
             if(res){
                 socket.emit('validation', true)
-            
+                myid = socket.id
+                newone = {name,myid}
             }
             else{
                 socket.emit('validation', false)
@@ -95,10 +97,12 @@ io.on('connection', (socket) => {
     // Events for real-time texting
 
     socket.on('receivetext', (message) => {
+        allofthem = allusers(socket.id, newone["name"])
+        
         io.emit('displaytext', {
             message,
-            time: moment().format("HH:mm"),
-            id: socket.id
+            time: moment().format("h:mm a"),
+            name: getcurrentuser(socket.id)
         })
     })
 

@@ -2,17 +2,15 @@
 
 const socket = io()
 
-const $message1 = document.querySelector('#template_time1')
-const $message2 = document.querySelector('#template_time2')
-const messagetemplate1 = document.querySelector('#messaging-user1').innerHTML
-const messagetemplate2 = document.querySelector('#messaging-user2').innerHTML
+var checker = 0
+
 
 var usernames = []
 
- document.querySelector('#messagesform').addEventListener('submit', (e) => {
+ document.querySelector('#chat-form').addEventListener('submit', (e) => {
         e.preventDefault()
-        const text  = document.getElementById('messagenow').value
-
+        const text  = document.getElementById('msg').value
+        document.getElementById('msg').value = ""
         socket.emit('receivetext', text)
  })
 
@@ -22,36 +20,28 @@ socket.on('collectname', (name) => {
     console.log(usernames)
 })
 
- socket.on('displaytext', ({message, time, id}) => {
+ socket.on('displaytext', ({message, time, name}) => {
     // Dynamically adding the texts to our html page.
     // Here, id's are taken into consideration in order to differentiate between multiple clients.
     // The limitation of the app lies in the fact that only two clients are able to join.
-    if (!usernames.includes(id)){
-        usernames.push(id)
+
+    // Creating a new div element.
+
+    const div = document.createElement('div')
+    div.classList.add('message')
+    if (!name){
+        name = "Cannot display your name idek why."
     }
-    
-    if (id == usernames[0]){
+    div.innerHTML = `<p class="meta">${name} <span> ${time}</span></p>
+    <p class="text">
+        ${message}
+    </p>`
+    document.querySelector('.chat-messages').appendChild(div)
 
-        // First user.
-        const html = Mustache.render(messagetemplate1, {
-            message,
-            time
-        })
-        $message1.insertAdjacentHTML('beforebegin', html)
+    // Enabling auto-scrolling in the application.
+    var mydocument = document.querySelector('.chat-messages')
 
-    }
-
-    else{
-        // Second User.
-
-        const html = Mustache.render(messagetemplate2, {
-            message,
-            time
-        })
-        $message2.insertAdjacentHTML('beforebegin', html)
-
-    }
-
+    mydocument.scrollTop = mydocument.scrollHeight
 
 })
 
