@@ -13,13 +13,13 @@ const OAuth2 = google.auth.OAuth2;
 const bunyan = require('bunyan')
 
 const oauth2Client = new OAuth2(
-    "606331556934-7i59clh82q6iteia8s947c1sc86k7l3r.apps.googleusercontent.com", // ClientID
-    "JOxUhhJf6XArMlmgQeMhKiND", // Client Secret
-    "https://developers.google.com/oauthplayground" // Redirect URL
+    "********", // ClientID
+    "********", // Client Secret
+    "********" // Redirect URL
 );
 
 oauth2Client.setCredentials({
-    refresh_token: "1//04_Wc0s_ZWXE5CgYIARAAGAQSNwF-L9IrRlK44fPZXG8R7rP5m3q3B8wUpzQVH7PWsGB8rneN3Yb478NfuzyZ5UApsJWZvB9PfjU"
+    refresh_token: "********"
 });
 const accessToken = oauth2Client.getAccessToken()
 
@@ -27,10 +27,10 @@ const smtpTransport = nodemailer.createTransport({
     service: "gmail",
     auth: {
          type: "OAuth2",
-         user: "shivamasaraf10@gmail.com", 
-         clientId: "606331556934-7i59clh82q6iteia8s947c1sc86k7l3r.apps.googleusercontent.com",
-         clientSecret: "JOxUhhJf6XArMlmgQeMhKiND",
-         refreshToken: "1//04_Wc0s_ZWXE5CgYIARAAGAQSNwF-L9IrRlK44fPZXG8R7rP5m3q3B8wUpzQVH7PWsGB8rneN3Yb478NfuzyZ5UApsJWZvB9PfjU",
+         user: "********", 
+         clientId: "********",
+         clientSecret: "********",
+         refreshToken: "********",
          accessToken: accessToken
     }});
     
@@ -108,9 +108,9 @@ io.on('connection', (socket) => {
                      
                      <b>Developer</b>: <i>Shivam Ajay Saraf</i>.
                      <br>
-                     <b>Email</b>: <i>shivamasaraf10@gmail.com</i>
+                     <b>Email</b>: <i>**********</i>
                      <br>
-                     <b>Phone</b>: <i>+1-647-569-5470</i>
+                     <b>Phone</b>: <i>**********</i>
                      <br>`
            };
 
