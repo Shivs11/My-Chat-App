@@ -18,13 +18,12 @@
     "mongodb": "^3.5.8",
     "mongoose": "^5.9.17",
     "nodemailer": "^6.4.10",
+    "nodemon": "^2.0.4",
     "socketio": "^1.0.0",
     "validator": "^13.0.0",
     "xoauth2": "^1.2.0"
   },
-  "devDependencies": {
-    "nodemon": "^2.0.4"
-  },
+  "devDependencies": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Shivs11/My-Chat-App.git"
