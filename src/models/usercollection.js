@@ -21,8 +21,13 @@ function getcurrentuser(id){
 }
 
 
+function giveallusers(){
+    return myusers
+}
+
 
 module.exports = {
     allusers,
-    getcurrentuser
+    getcurrentuser,
+    giveallusers
 }

@@ -3,7 +3,7 @@
 const socket = io()
 
 
-
+const $myuserdiv = document.querySelector('#users')
 
 var usernames = []
 
@@ -17,7 +17,7 @@ var usernames = []
 
 
 
- socket.on('displaytext', ({message, time, name, checker}) => {
+ socket.on('displaytext', ({message, time, name, checker, allmyusers}) => {
     // Dynamically adding the texts to our html page.
     // Here, id's are taken into consideration in order to differentiate between multiple clients.
     // The limitation of the app lies in the fact that only two clients are able to join.
@@ -41,6 +41,13 @@ var usernames = []
 
     mydocument.scrollTop = mydocument.scrollHeight
 
+})
+
+
+socket.on('displayallusers', (myusers) => {
+    console.log(myusers)
+    $myuserdiv.innerHTML = `
+    ${myusers.map(user => `<li>${user}</li>`).join('')}`
 })
 
 

@@ -44,7 +44,7 @@ const mongoose = require('mongoose')
 const validator = require('validator')
 const userinfo = require('./models/email')
 const bcrypt = require('bcryptjs')
-const {allusers, getcurrentuser} = require('./models/usercollection')
+const {allusers, getcurrentuser, giveallusers} = require('./models/usercollection')
 const email = require('./models/email')
 
 var myid = 0
@@ -117,7 +117,7 @@ io.on('connection', (socket) => {
            smtpTransport.sendMail(mailOptions, (error, response) => {
             error ? console.log(error) : console.log(response);
             smtpTransport.close();
-        });
+        })
         
         
             io.emit('redirecttologin')
@@ -166,12 +166,15 @@ io.on('connection', (socket) => {
 
     socket.on('receivetext', (message) => {
         allofthem = allusers(socket.id, newone["name"])
-        
+        allmyusers = giveallusers()
         io.emit('displaytext', {
             message,
             time: moment().format("h:mm a"),
-            name: getcurrentuser(socket.id)
+            name: getcurrentuser(socket.id),
+            allmyusers
         })
+
+        io.emit('displayallusers', allmyusers)
     })
 
     
