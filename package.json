@@ -11,12 +11,16 @@
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "bunyan": "^1.8.12",
     "express": "^4.17.1",
+    "googleapis": "^52.1.0",
     "moment": "^2.26.0",
     "mongodb": "^3.5.8",
     "mongoose": "^5.9.17",
+    "nodemailer": "^6.4.10",
     "socketio": "^1.0.0",
-    "validator": "^13.0.0"
+    "validator": "^13.0.0",
+    "xoauth2": "^1.2.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.4"

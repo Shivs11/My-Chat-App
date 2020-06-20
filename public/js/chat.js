@@ -26,6 +26,10 @@ document.getElementById('button_details').addEventListener('click', (e) =>{
     })
 })
 
+socket.on('redirecttologin', () => {
+    redirect()
+})
+
 // Seperate event for receiving and displaying location.
 
 socket.on('receivelocation', (url) => {

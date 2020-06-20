@@ -15,9 +15,10 @@
                 <div class = "button-box"></div>
 
             <form id="initial-one" class="myform">
-                <u><h2 style="font-size: 30px; border-style: groove; border-radius: 15px 50px 30px;font-family: Arial, Helvetica, sans-serif; color: coral; border: 3px;  border-style: groove;border-color: black;">Sign up to have a blast.</h2></u>
+                <!-- <u><h2 style="font-size: 30px; border-style: groove; border-radius: 15px 50px 30px;font-family: Arial, Helvetica, sans-serif; color: coral; border: 3px;  border-style: groove;border-color: black;">Sign up to have a blast.</h2></u> 
                 <br>
                 <br>
+                -->
                 <input style="border-style: groove; border-radius: 15px 50px 30px; height: 50px; width: 300px; text-align: center;" class = "button1 bouncy" id="myname" name="message" type="text" placeholder="Enter your name here." />
                 <br>
                 <br>
@@ -83,6 +84,10 @@
         function clearplease() {
             document.getElementById("myemail").value = "";
             document.getElementById("myname").value = "";
+        }
+
+        function redirect(){
+            window.location = "http://localhost:3000/Login"
         }
     </script>
 </html>

@@ -2,7 +2,7 @@
 
 const socket = io()
 
-var checker = 0
+
 
 
 var usernames = []
@@ -15,17 +15,15 @@ var usernames = []
  })
 
 
-socket.on('collectname', (name) => {
-    usernames.append(name)
-    console.log(usernames)
-})
 
- socket.on('displaytext', ({message, time, name}) => {
+
+ socket.on('displaytext', ({message, time, name, checker}) => {
     // Dynamically adding the texts to our html page.
     // Here, id's are taken into consideration in order to differentiate between multiple clients.
     // The limitation of the app lies in the fact that only two clients are able to join.
 
     // Creating a new div element.
+
 
     const div = document.createElement('div')
     div.classList.add('message')

@@ -24,11 +24,7 @@
           <h2 id="room-name">My Room.</h2>
           <h3><i class="fas fa-users"></i> Users</h3>
           <ul id="users">
-            <li>Brad</li>
-            <li>John</li>
-            <li>Mary</li>
-            <li>Paul</li>
-            <li>Mike</li>
+
           </ul>
         </div>
         <div class="chat-messages">
@@ -40,7 +36,7 @@
           <input
             id="msg"
             type="text"
-            placeholder="Enter your nickname and type your first text! (Eg: Shivs:Hey)"
+            placeholder="Enter your text here!"
             required
             autocomplete="off"
           />
@@ -48,6 +44,13 @@
         </form>
       </div>
     </div>
+    <script id = "functions">
+      function changename(name){        // Creating a user on our interface.
+      const li = document.createElement('li')
+      li.innerHTML = name
+      document.querySelector('#users').appendChild(li)
+      }
+    </script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.6.0/qs.min.js"></script>

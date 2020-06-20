@@ -6,6 +6,37 @@ const express = require('express')
 const socketio = require('socket.io')
 const moment = require('moment')
 
+// Required packages for sending multiple users emails.
+const nodemailer = require("nodemailer");
+const { google } = require("googleapis");
+const OAuth2 = google.auth.OAuth2;
+const bunyan = require('bunyan')
+
+const oauth2Client = new OAuth2(
+    "606331556934-7i59clh82q6iteia8s947c1sc86k7l3r.apps.googleusercontent.com", // ClientID
+    "JOxUhhJf6XArMlmgQeMhKiND", // Client Secret
+    "https://developers.google.com/oauthplayground" // Redirect URL
+);
+
+oauth2Client.setCredentials({
+    refresh_token: "1//04_Wc0s_ZWXE5CgYIARAAGAQSNwF-L9IrRlK44fPZXG8R7rP5m3q3B8wUpzQVH7PWsGB8rneN3Yb478NfuzyZ5UApsJWZvB9PfjU"
+});
+const accessToken = oauth2Client.getAccessToken()
+
+const smtpTransport = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+         type: "OAuth2",
+         user: "shivamasaraf10@gmail.com", 
+         clientId: "606331556934-7i59clh82q6iteia8s947c1sc86k7l3r.apps.googleusercontent.com",
+         clientSecret: "JOxUhhJf6XArMlmgQeMhKiND",
+         refreshToken: "1//04_Wc0s_ZWXE5CgYIARAAGAQSNwF-L9IrRlK44fPZXG8R7rP5m3q3B8wUpzQVH7PWsGB8rneN3Yb478NfuzyZ5UApsJWZvB9PfjU",
+         accessToken: accessToken
+    }});
+    
+
+
+
 
 // Connecting to a database.
 
@@ -14,8 +45,11 @@ const validator = require('validator')
 const userinfo = require('./models/email')
 const bcrypt = require('bcryptjs')
 const {allusers, getcurrentuser} = require('./models/usercollection')
+const email = require('./models/email')
 
 var myid = 0
+var checker = 0
+
 
 mongoose.connect('mongodb://127.0.0.1:27017/chat-app', {
     useNewUrlParser: true,
@@ -52,7 +86,41 @@ io.on('connection', (socket) => {
         })
         newone.save()
         .then((doc) => {
-            console.log(doc)
+
+            const mailOptions = {
+                from: "shivamasaraf10@gmail.com",
+                to: `${email}`,
+                subject: "Welcome to Chat-Time!",
+                generateTextFromHTML: true,
+                html: `<b>Hey ${name}!! </b>
+                     <br>
+                     <br>
+                     <br>
+
+                     Welcome to Chat-Time, a real-time chat application developed with an aim to connect with your loved ones during these hard times. Please do keep in mind that this is a work in progress
+                     and with that being said, feel free to contact the developer to suggest any further improvements. 
+                     Thank You once again for giving this a try! Enjoy your experience!
+
+                     <br>
+                     <br>
+                     <br>
+
+                     
+                     <b>Developer</b>: <i>Shivam Ajay Saraf</i>.
+                     <br>
+                     <b>Email</b>: <i>shivamasaraf10@gmail.com</i>
+                     <br>
+                     <b>Phone</b>: <i>+1-647-569-5470</i>
+                     <br>`
+           };
+
+           smtpTransport.sendMail(mailOptions, (error, response) => {
+            error ? console.log(error) : console.log(response);
+            smtpTransport.close();
+        });
+        
+        
+            io.emit('redirecttologin')
         })
         .catch(err => {
             console.log(err)
@@ -84,7 +152,7 @@ io.on('connection', (socket) => {
         }
         bcrypt.compare(password, document.password, function(err,res) {
             if(res){
-                socket.emit('validation', true)
+                socket.emit('validation', (true, name))
                 myid = socket.id
                 newone = {name,myid}
             }
